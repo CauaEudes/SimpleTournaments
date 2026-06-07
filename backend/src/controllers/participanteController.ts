@@ -3,7 +3,7 @@ import { participanteService } from '../services/participanteService';
 
 export const participanteController = {
   listarTodos(req: Request, res: Response) {
-    const participantes = participanteService.listarTodos();
+    const participantes = participanteService.listarTodos(req.query.torneioId as string);
     res.json(participantes);
   },
 

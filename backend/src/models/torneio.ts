@@ -4,6 +4,7 @@ export interface Torneio {
   descricao: string;
   dataInicio: string;
   status: 'aberto' | 'em_andamento' | 'finalizado';
+  criacaoAvancada: boolean;
   criadoEm: string;
 }
 
@@ -19,13 +20,14 @@ export const torneioModel = {
     return torneios.find(t => t.id === id) || null;
   },
 
-  inserir(dados: { nome: string; descricao?: string; dataInicio: string; status?: string }): Torneio {
+  inserir(dados: { nome: string; descricao?: string; dataInicio: string; status?: string; criacaoAvancada?: boolean }): Torneio {
     const novo: Torneio = {
       id: nextId++,
       nome: dados.nome,
       descricao: dados.descricao || '',
       dataInicio: dados.dataInicio,
       status: (dados.status as Torneio['status']) || 'aberto',
+      criacaoAvancada: !!dados.criacaoAvancada,
       criadoEm: new Date().toISOString(),
     };
     torneios.push(novo);
@@ -42,6 +44,6 @@ export const torneioModel = {
   remover(id: number): boolean {
     const tamanhoAntes = torneios.length;
     torneios = torneios.filter(t => t.id !== id);
-    return torneios.length < tamanhoAntes; // true = removeu
+    return torneios.length < tamanhoAntes;
   },
 };

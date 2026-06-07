@@ -1,7 +1,11 @@
 import { participanteModel } from '../models/participante';
+import { torneioModel } from '../models/torneio';
 
 export const participanteService = {
-  listarTodos() {
+  listarTodos(torneioId?: string) {
+    if (torneioId) {
+      return participanteModel.listarPorTorneio(Number(torneioId));
+    }
     return participanteModel.listarTodos();
   },
 
@@ -15,20 +19,40 @@ export const participanteService = {
     return participante;
   },
 
-  criar(dados: { nome?: string; email?: string }) {
-    if (!dados.nome || !dados.email) {
-      const err = new Error('Campos "nome" e "email" são obrigatórios') as Error & { status: number };
+  criar(dados: { nome?: string; email?: string; telefone?: string; torneioId?: number }) {
+    if (!dados.nome) {
+      const err = new Error('Campo "nome" é obrigatório') as Error & { status: number };
       err.status = 400;
       throw err;
     }
 
-    if (participanteModel.existeEmail(dados.email)) {
-      const err = new Error('Já existe um participante com este e-mail') as Error & { status: number };
-      err.status = 409;
+    if (!dados.torneioId) {
+      const err = new Error('Campo "torneioId" é obrigatório') as Error & { status: number };
+      err.status = 400;
       throw err;
     }
 
-    return participanteModel.inserir({ nome: dados.nome, email: dados.email });
+    const torneio = torneioModel.buscarPorId(Number(dados.torneioId));
+    if (!torneio) {
+      const err = new Error('Torneio informado não existe') as Error & { status: number };
+      err.status = 422;
+      throw err;
+    }
+
+    if (torneio.criacaoAvancada) {
+      if (!dados.email || !dados.telefone) {
+        const err = new Error('Para este torneio (Criação Avançada), "email" e "telefone" são obrigatórios') as Error & { status: number };
+        err.status = 400;
+        throw err;
+      }
+    }
+
+    return participanteModel.inserir({
+      nome: dados.nome,
+      email: dados.email,
+      telefone: dados.telefone,
+      torneioId: Number(dados.torneioId),
+    });
   },
 
   atualizar(id: number, dados: Record<string, unknown>) {
