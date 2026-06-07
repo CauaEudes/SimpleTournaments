@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SimpleTournaments</title>
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+  <nav class="navbar navbar-dark bg-dark mb-4">
+    <div class="container">
+      <span class="navbar-brand fw-bold">🏆 SimpleTournaments</span>
+    </div>
+  </nav>
+
+  <div class="container" style="max-width: 960px;">
+    <div id="alerta" class="alert alert-danger d-none" role="alert"></div>
+
+    <section id="view-lista">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="h4 mb-0">Torneios</h1>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-torneio">
+          + Novo Torneio
+        </button>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <input type="text" id="busca-torneio" class="form-control" placeholder="Buscar torneio por nome...">
+        </div>
+      </div>
+
+      <div id="torneios-grid" class="row g-3"></div>
+    </section>
+
+    <section id="view-detalhe" class="d-none">
+      <button id="btn-voltar" class="btn btn-outline-secondary mb-3">← Voltar</button>
+
+      <div id="detalhe-torneio" class="card mb-4"></div>
+
+      <div class="card">
+        <div class="card-header bg-primary text-white fw-bold">Participantes</div>
+        <div class="card-body">
+          <div class="mb-3">
+            <input type="text" id="busca-participante" class="form-control" placeholder="Buscar participante por nome...">
+          </div>
+
+          <form id="form-participante" class="row g-2 mb-3">
+            <div class="col-md-4">
+              <input type="text" id="part-nome" class="form-control"
+                     placeholder="Nome do participante" required>
+            </div>
+            <div class="col-md-3 campos-avancados d-none">
+              <input type="email" id="part-email" class="form-control"
+                     placeholder="E-mail">
+            </div>
+            <div class="col-md-3 campos-avancados d-none">
+              <input type="text" id="part-telefone" class="form-control"
+                     placeholder="Telefone">
+            </div>
+            <div class="col-md-2">
+              <button type="submit" class="btn btn-primary w-100">
+                Adicionar
+              </button>
+            </div>
+          </form>
+          <ul id="lista-participantes" class="list-group"></ul>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="modal fade" id="modal-torneio" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Novo Torneio</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <form id="form-torneio">
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="tor-nome" class="form-label">Nome</label>
+              <input type="text" id="tor-nome" class="form-control" required>
+            </div>
+            <div class="mb-3">
+              <label for="tor-descricao" class="form-label">Descrição</label>
+              <textarea id="tor-descricao" class="form-control" rows="2"></textarea>
+            </div>
+            <div class="mb-3">
+              <label for="tor-dataInicio" class="form-label">Data de Início</label>
+              <input type="date" id="tor-dataInicio" class="form-control" required>
+            </div>
+            <div class="form-check mb-3">
+              <input class="form-check-input" type="checkbox" id="tor-avancada">
+              <label class="form-check-label" for="tor-avancada">
+                Criação Avançada (exigir E-mail e Telefone dos participantes)
+              </label>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-primary">Criar Torneio</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

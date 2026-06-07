@@ -1,0 +1,17 @@
+body {
+  min-height: 100vh;
+}
+
+.torneio-card {
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.torneio-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.list-group-item {
+  transition: background-color 0.15s ease;
+}
