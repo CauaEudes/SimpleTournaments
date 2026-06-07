@@ -22,16 +22,17 @@ O projeto segue a arquitetura em camadas ensinada em aula:
 ## 🏗️ Classes do Domínio
 
 ### 1. `Torneio`
-Representa um torneio ou competição.
+Representa um campeonato ou torneio esportivo.
 
-| Atributo     | Tipo     | Descrição                                       |
-|-------------|----------|-------------------------------------------------|
-| `id`        | `number` | Identificador único (auto-increment)            |
-| `nome`      | `string` | Nome do torneio                                 |
-| `descricao` | `string` | Descrição breve do torneio                      |
-| `dataInicio`| `string` | Data de início (ISO 8601)                       |
-| `status`    | `string` | `"aberto"` · `"em_andamento"` · `"finalizado"`  |
-| `criadoEm`  | `string` | Timestamp de criação                            |
+| Atributo     | Tipo      | Descrição                                         |
+|-------------|-----------|---------------------------------------------------|
+| `id`        | `number`  | Identificador único (auto-increment)              |
+| `nome`      | `string`  | Nome do campeonato                                |
+| `descricao` | `string`  | Breve descrição                                   |
+| `dataInicio`| `string`  | Data prevista para começar (YYYY-MM-DD)           |
+| `status`    | `string`  | Status ('aberto', 'em_andamento', 'finalizado')   |
+| `criacaoAvancada` | `boolean` | Flag que exige email e telefone dos participantes |
+| `criadoEm`  | `string`  | Timestamp de criação                              |
 
 ---
 
@@ -42,7 +43,9 @@ Representa um competidor/jogador cadastrado na plataforma.
 |------------|----------|-------------------------------------------------|
 | `id`       | `number` | Identificador único (auto-increment)            |
 | `nome`     | `string` | Nome do participante                            |
-| `email`    | `string` | E-mail de contato                               |
+| `email`    | `string` | E-mail de contato (Opcional, exigido em Avançado)|
+| `telefone` | `string` | Telefone de contato (Opcional, exigido em Avançado)|
+| `torneioId`| `number` | ID do torneio que o participante faz parte      |
 | `criadoEm` | `string` | Timestamp de criação                            |
 
 ---
