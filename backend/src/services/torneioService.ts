@@ -15,9 +15,18 @@ export const torneioService = {
     return torneio;
   },
 
-  criar(dados: { nome?: string; descricao?: string; dataInicio?: string; status?: string }) {
+  criar(dados: { nome?: string; descricao?: string; dataInicio?: string; status?: string; criacaoAvancada?: boolean }) {
     if (!dados.nome || !dados.dataInicio) {
       const err = new Error('Campos "nome" e "dataInicio" são obrigatórios') as Error & { status: number };
+      err.status = 400;
+      throw err;
+    }
+
+    const dataHoje = new Date();
+    dataHoje.setHours(0, 0, 0, 0);
+    const dataInformada = new Date(dados.dataInicio + 'T00:00:00');
+    if (dataInformada < dataHoje) {
+      const err = new Error('A data de início não pode estar no passado') as Error & { status: number };
       err.status = 400;
       throw err;
     }
@@ -27,6 +36,7 @@ export const torneioService = {
       descricao: dados.descricao,
       dataInicio: dados.dataInicio,
       status: dados.status,
+      criacaoAvancada: dados.criacaoAvancada,
     });
   },
 

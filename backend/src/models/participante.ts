@@ -1,7 +1,9 @@
 export interface Participante {
   id: number;
   nome: string;
-  email: string;
+  email?: string;
+  telefone?: string;
+  torneioId: number;
   criadoEm: string;
 }
 
@@ -13,19 +15,21 @@ export const participanteModel = {
     return participantes;
   },
 
+  listarPorTorneio(torneioId: number): Participante[] {
+    return participantes.filter(p => p.torneioId === torneioId);
+  },
+
   buscarPorId(id: number): Participante | null {
     return participantes.find(p => p.id === id) || null;
   },
 
-  existeEmail(email: string): boolean {
-    return participantes.some(p => p.email === email);
-  },
-
-  inserir(dados: { nome: string; email: string }): Participante {
+  inserir(dados: { nome: string; email?: string; telefone?: string; torneioId: number }): Participante {
     const novo: Participante = {
       id: nextId++,
       nome: dados.nome,
       email: dados.email,
+      telefone: dados.telefone,
+      torneioId: Number(dados.torneioId),
       criadoEm: new Date().toISOString(),
     };
     participantes.push(novo);
