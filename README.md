@@ -5,7 +5,7 @@
 O **SimpleTournaments** é uma aplicação fullstack SPA (Single Page Application) para gerenciamento de torneios e competições em geral. O sistema permite criar torneios de qualquer modalidade, cadastrar participantes e gerenciar inscrições.
 
 O projeto segue a arquitetura em camadas ensinada em aula:
-- **Backend**: API REST com Express.js (TypeScript), seguindo a separação Route → Controller → Service → Model
+- **Backend**: Express.js (TypeScript), seguindo a separação Route → Controller → Service → Model
 - **Frontend**: HTML5 semântico + Bootstrap + TypeScript puro (sem frameworks), seguindo a separação Config → API → Services → UI → Main
 
 ---
