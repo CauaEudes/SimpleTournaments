@@ -65,8 +65,36 @@ Representa o vínculo de um participante em um torneio (associação N:N).
 ## ⚙️ Tecnologias
 
 | Camada     | Tecnologia                          |
+| Camada     | Tecnologia                          |
 |-----------|--------------------------------------|
-| Backend   | Node.js + Express.js + TypeScript    |
+| Backend   | Node.js + Express.js + SQLite + TS   |
 | Frontend  | HTML5 + Bootstrap 5 + TypeScript     |
 | Estilo    | Bootstrap 5 + CSS customizado        |
 | Build     | `tsc` (TypeScript Compiler)          |
+
+---
+
+## 🚀 Como Rodar o Projeto
+
+Este projeto exige o **Node.js 22 ou superior**.
+
+### 1. Iniciar o Backend
+Abra um terminal, acesse a pasta `backend` e rode:
+```bash
+cd backend
+npm install
+npm run dev
+```
+Isso iniciará a API na porta `3000` (`http://localhost:3000`) e criará automaticamente o banco de dados `banco.db` na raiz da pasta backend.
+
+### 2. Iniciar o Frontend
+Abra um **segundo terminal**, acesse a pasta `frontend` e rode:
+```bash
+cd frontend
+npm install
+npm run build
+npm run serve
+```
+Isso iniciará o servidor HTTP local para o frontend na porta `5500` (`http://localhost:5500`).
+
+Acesse `http://localhost:5500` no seu navegador para utilizar o sistema!

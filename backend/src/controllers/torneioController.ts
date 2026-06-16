@@ -3,7 +3,7 @@ import { torneioService } from '../services/torneioService';
 
 export const torneioController = {
   listarTodos(req: Request, res: Response) {
-    const torneios = torneioService.listarTodos();
+    const torneios = torneioService.listarTodos();  
     res.json(torneios);
   },
 

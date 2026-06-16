@@ -1,3 +1,5 @@
+import { db } from '../db';
+
 export interface Participante {
   id: number;
   nome: string;
@@ -7,45 +9,69 @@ export interface Participante {
   criadoEm: string;
 }
 
-let participantes: Participante[] = [];
-let nextId = 1;
+function paraApi(row: any): Participante | null {
+  if (!row) return null;
+  return {
+    id: row.id,
+    nome: row.nome,
+    email: row.email,
+    telefone: row.telefone,
+    torneioId: row.torneio_id,
+    criadoEm: row.criado_em,
+  };
+}
 
 export const participanteModel = {
   listarTodos(): Participante[] {
-    return participantes;
+    const rows = db.prepare('SELECT * FROM participantes').all();
+    return (rows as any[]).map(paraApi) as Participante[];
   },
 
   listarPorTorneio(torneioId: number): Participante[] {
-    return participantes.filter(p => p.torneioId === torneioId);
+    const rows = db.prepare('SELECT * FROM participantes WHERE torneio_id = ?').all(torneioId);
+    return (rows as any[]).map(paraApi) as Participante[];
   },
 
   buscarPorId(id: number): Participante | null {
-    return participantes.find(p => p.id === id) || null;
+    const row = db.prepare('SELECT * FROM participantes WHERE id = ?').get(id);
+    return paraApi(row);
   },
 
   inserir(dados: { nome: string; email?: string; telefone?: string; torneioId: number }): Participante {
-    const novo: Participante = {
-      id: nextId++,
-      nome: dados.nome,
-      email: dados.email,
-      telefone: dados.telefone,
-      torneioId: Number(dados.torneioId),
-      criadoEm: new Date().toISOString(),
-    };
-    participantes.push(novo);
-    return novo;
+    const r = db.prepare(`
+      INSERT INTO participantes (nome, email, telefone, torneio_id, criado_em)
+      VALUES (?, ?, ?, ?, ?)
+    `).run(
+      dados.nome,
+      dados.email || null,
+      dados.telefone || null,
+      dados.torneioId,
+      new Date().toISOString()
+    );
+    return this.buscarPorId(r.lastInsertRowid as number) as Participante;
   },
 
   atualizar(id: number, dados: Partial<Omit<Participante, 'id'>>): Participante | null {
-    const idx = participantes.findIndex(p => p.id === id);
-    if (idx === -1) return null;
-    participantes[idx] = { ...participantes[idx], ...dados, id };
-    return participantes[idx];
+    const atual = this.buscarPorId(id);
+    if (!atual) return null;
+
+    const novo = { ...atual, ...dados };
+    db.prepare(`
+      UPDATE participantes
+      SET nome = ?, email = ?, telefone = ?, torneio_id = ?
+      WHERE id = ?
+    `).run(
+      novo.nome,
+      novo.email || null,
+      novo.telefone || null,
+      novo.torneioId,
+      id
+    );
+    return this.buscarPorId(id);
   },
 
   remover(id: number): boolean {
-    const tamanhoAntes = participantes.length;
-    participantes = participantes.filter(p => p.id !== id);
-    return participantes.length < tamanhoAntes;
+    const r = db.prepare('DELETE FROM participantes WHERE id = ?').run(id);
+    return r.changes > 0;
   },
 };

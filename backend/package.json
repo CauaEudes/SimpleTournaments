@@ -8,13 +8,14 @@
     "dev": "tsx watch src/server.ts"
   },
   "dependencies": {
-    "express": "^5.0.1",
-    "cors": "^2.8.5"
+    "cors": "^2.8.5",
+    "express": "^5.0.1"
   },
   "devDependencies": {
-    "typescript": "^5.7.0",
-    "@types/express": "^5.0.0",
     "@types/cors": "^2.8.17",
-    "tsx": "^4.19.0"
+    "@types/express": "^5.0.0",
+    "@types/node": "^25.9.3",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0"
   }
 }
